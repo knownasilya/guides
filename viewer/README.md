@@ -3,6 +3,14 @@
 This README outlines the details of collaborating on this Ember application.
 A short introduction of this app could easily go here.
 
+## Temporary notes during prototyping
+
+* do a `bundle exec middleman build` one level up prior to running the ember-cli app.  Failures are ok.  that will generate files in the `build` folder (a level up) that our express server-mock will read in
+* move over `build/stylesheets` to `app/styles` and rename `application.css` to `app.css`
+* move over `build/images` and `build/fonts` to `public/`
+* `ember server`
+* Visit your app at [http://localhost:4200](http://localhost:4200).
+
 ## Prerequisites
 
 You will need the following things properly installed on your computer.
