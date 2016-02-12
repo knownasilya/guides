@@ -1,3 +1,13 @@
-<h2 id="title">Welcome to Ember</h2>
+{{partial 'header'}}
 
-{{outlet}}
+<!-- FIXME: decide whether we need this still
+<%= yield_content :outside_wrapper %>
+-->
+
+<main class="container">
+  {{partial 'sidebar'}}
+
+  {{outlet}}
+</main>
+
+{{partial 'footer'}}
