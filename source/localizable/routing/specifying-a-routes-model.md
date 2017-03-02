@@ -164,7 +164,7 @@ each record in the song model and album model:
 </ul>
 ```
 
-## Reusing Route Context (bikeshed)
+## Reusing Route Context
 
 Sometimes you need to fetch a model, but your route doesn't have the params, because it's
 a child route and the route directly above or a few levels above has the parameters that your route
