@@ -190,9 +190,9 @@ do `paramsFor` on a sibling route, you wouldn't have the results you expected.
 This is a great way to use the parent context to load something that you want.
 Using `paramsFor` will also give you the query params defined on that route's controller.
 This method could also be used to look up the current route's parameters from an action
-or another method on the route, and in that cases we have a shortcut: `this.paramsFor(this.routeName)`.
+or another method on the route, and in that case we have a shortcut: `this.paramsFor(this.routeName)`.
 
-In our case, the parent route had already loaded it's songs, so we would be writing unnecessary fetching logic.
+In our case, the parent route had already loaded its songs, so we would be writing unnecessary fetching logic.
 Let's rewrite the same route, but use `modelFor`, which works the same way, but returns the model
 from the parent route.
 
@@ -201,7 +201,7 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   model() {
-    let { song } = this.modelFor('album');
+    let { songs } = this.modelFor('album');
 
     return songs;
   }
