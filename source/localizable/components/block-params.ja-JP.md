@@ -1,43 +1,43 @@
-Components can have properties passed in ([Passing Properties to a Component](../passing-properties-to-a-component/)), but they can also return output to be used in a block expression.
+コンポーネントへはプロパティを渡すことができ ([コンポーネントへプロパティを渡す](../passing-properties-to-a-component/))、それらをブロック式で使う出力として戻すこともできます。
 
-### Return values from a component with `yield`
+### `yield`を使ってコンポーネントから値を渡す
 
 ```app/templates/index.hbs
 {{blog-post post=model}}
 ```
 
-<pre><code class="app/templates/components/blog-post.hbs">{{yield post.title post.body post.author}}
-</code></pre>
+```app/templates/components/blog-post.hbs
+{{yield post.title post.body post.author}}
+```
 
-Here an entire blog post model is being passed to the component as a single component property. In turn the component is returning values using `yield`. In this case the yielded values are pulled from the post being passed in but anything that the component has access to can be yielded, such as an internal property or something from a service.
+上記ではブロク記事モデル全体が単一のプロパティとしてコンポーネントに渡されています。 次にコンポーネントは`yield`を使って値を返しています。 この場合は返された値は渡したブログ記事から参照されていますが、内部プロパティやサービスから参照した値など、コンポーネントが参照できるものは全て返すことが可能です。
 
-### Consuming yielded values with block params
+### ブロック引数を使ってyieldで渡された値を使う
 
-The block expression can then use block params to bind names to any yielded values for use in the block. This allows for template customization when using a component, where the markup is provided by the consuming template, but any event handling behavior implemented in the component is retained such as `click()` handlers.
+ブロック式では、ブロック引数を使用して、yieldで渡された値に名前をバインドできます。 これによって、コンポーンネントを使用していてその中のテンプレートによってマークアップが提供されている箇所でも、テンプレートのカスタマイズが可能になります。そして、その場合でもコンポーネント内で実装されたイベントハンドラの処理(`click()`ハンドラなど)は保持されたままとなります。
 
 ```app/templates/index.hbs
 {{#blog-post post=model as |title body author|}}
   <h2>{{title}}</h2>
   <p class="author">by {{author}}</p>
-  <div class="post-body">{{body}}</p>
+  <p class="post-body">{{body}}</p>
 {{/blog-post}}
 ```
 
-The names are bound in the order that they are passed to `yield` in the component template.
+名前は、コンポーネントテンプレート内で`yield`に渡される順序でバインドされます。
 
-### Supporting both block and non-block component usage in one template
+### 一つのテンプレート内でコンポーネントをブロック付きで利用するケースとブロック無しで利用するケースの両方をサポートする
 
-It is possible to support both block and non-block usage of a component from a single component template using the `hasBlock` property.
+`hasBlock`プロパティを使って、一つのコンポーネントテンプレート内でブロックを付けるケースと付けないケースの両方をサポートできます。
 
-<pre><code class="app/templates/components/blog-post.hbs">{{#if hasBlock}}
-  {{yield post.title}}
-  {{yield post.body}}
-  {{yield post.author}}
+```app/templates/components/blog-post.hbs
+{{#if hasBlock}}
+  {{yield post.title post.body post.author}}  
 {{else}}
-  &lt;h1&gt;{{post.title}}&lt;/h1&gt;
-  &lt;p class="author"&gt;Authored by {{post.author}}&lt;/p&gt;
-  &lt;p&gt;{{post.body}}&lt;/p&gt;
+  <h1>{{post.title}}</h1>
+  <p class="author">Authored by {{post.author}}</p>
+  <p>{{post.body}}</p>
 {{/if}}
-</code></pre>
+```
 
-This has the effect of providing a default template when using a component in the non-block form but providing yielded values for use with block params when using a block expression.
+これには、ブロック式を使う際にブロック引数と一緒に使うためにyieldされた値を使うようにしている場合に、ブロック無しでコンポーネントを利用する際のデフォルトテンプレートを提供できるという効果があります。

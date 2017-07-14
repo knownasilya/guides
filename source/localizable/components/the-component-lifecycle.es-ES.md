@@ -10,26 +10,26 @@ Listed below are the component lifecycle hooks in order of execution according t
 
 ### On Initial Render
 
-  1. `init`
-  2. [`didReceiveAttrs`](#toc_formatting-component-attributes-with-code-didreceiveattrs-code)
-  3. `willRender`
-  4. [`didInsertElement`](#toc_integrating-with-third-party-libraries-with-code-didinsertelement-code)
-  5. [`didRender`](#toc_making-updates-to-the-rendered-dom-with-code-didrender-code)
+1. `init`
+2. [`didReceiveAttrs`](#toc_formatting-component-attributes-with-code-didreceiveattrs-code)
+3. `willRender`
+4. [`didInsertElement`](#toc_integrating-with-third-party-libraries-with-code-didinsertelement-code)
+5. [`didRender`](#toc_making-updates-to-the-rendered-dom-with-code-didrender-code)
 
 ### On Re-Render
 
-  1. [`didUpdateAttrs`](#toc_resetting-presentation-state-on-attribute-change-with-code-didupdateattrs-code)
-  2. [`didReceiveAttrs`](#toc_formatting-component-attributes-with-code-didreceiveattrs-code)
-  3. `willUpdate`
-  4. `willRender`
-  5. `didUpdate`
-  6. [`didRender`](#toc_making-updates-to-the-rendered-dom-with-code-didrender-code)
+1. [`didUpdateAttrs`](#toc_resetting-presentation-state-on-attribute-change-with-code-didupdateattrs-code)
+2. [`didReceiveAttrs`](#toc_formatting-component-attributes-with-code-didreceiveattrs-code)
+3. `willUpdate`
+4. `willRender`
+5. `didUpdate`
+6. [`didRender`](#toc_making-updates-to-the-rendered-dom-with-code-didrender-code)
 
 ### On Component Destroy
 
-  1. [`willDestroyElement`](#toc_detaching-and-tearing-down-component-elements-with-code-willdestroyelement-code)
-  2. `willClearRender`
-  3. `didDestroyElement`
+1. [`willDestroyElement`](#toc_detaching-and-tearing-down-component-elements-with-code-willdestroyelement-code)
+2. `willClearRender`
+3. `didDestroyElement`
 
 ## Lifecycle Hook Examples
 
@@ -39,7 +39,7 @@ Below are some samples of ways to use lifecycle hooks within your components.
 
 `didUpdateAttrs` runs when the attributes of a component have changed, but not when the component is re-rendered, via `component.rerender`, `component.set`, or changes in models or services used by the template.
 
-A `didUpdateAttrs` is called prior to rerender, you can use this hook to execute code when specific attributes are changed. This hook can be an effective alternative to an observer, as it will run prior to a re-render, but after an attribute has changed.
+Since `didUpdateAttrs` is called prior to rerender, you can use this hook to execute code when specific attributes are changed. This hook can be an effective alternative to an observer, as it will run prior to a re-render, but after an attribute has changed.
 
 An example of this scenario in action is a profile editor component. As you are editing one user, and the user attribute is changed, you can use `didUpdateAttrs` to clear any error state that was built up from editing the previous user.
 
@@ -86,7 +86,7 @@ export default Ember.Component.extend({
 
 ### Formatting Component Attributes with `didReceiveAttrs`
 
-`didReceiveAttrs` runs after `init`, and it also runs on subsequent re-renders, which is useful for logic that is the same on all renders. It does not run when the re-rendered has been initiated internally.
+`didReceiveAttrs` runs after `init`, and it also runs on subsequent re-renders, which is useful for logic that is the same on all renders. It does not run when the re-render has been initiated internally.
 
 Since the `didReceiveAttrs` hook is called every time a component's attributes are updated whether on render or re-render, you can use the hook to effectively act as an observer, ensuring code is executed every time an attribute changes.
 
@@ -116,8 +116,8 @@ After a component successfully renders its backing HTML element into the DOM, it
 
 Ember guarantees that, by the time `didInsertElement()` is called:
 
-  1. The component's element has been both created and inserted into the DOM.
-  2. The component's element is accessible via the component's [`$()`](http://emberjs.com/api/classes/Ember.Component.html#method__) method.
+1. The component's element has been both created and inserted into the DOM.
+2. The component's element is accessible via the component's [`$()`](http://emberjs.com/api/classes/Ember.Component.html#method__) method.
 
 A component's [`$()`](http://emberjs.com/api/classes/Ember.Component.html#method__) method allows you to access the component's DOM element by returning a JQuery element. For example, you can set an attribute using jQuery's `attr()` method:
 
@@ -170,7 +170,7 @@ There are a few things to note about the `didInsertElement()` hook:
 
 ### Making Updates to the Rendered DOM with `didRender`
 
-The `didRender` hook is called during both render and re-render after the template has rendered and the DOM updated. You can leverage this hook to perform post-processing on the DOM of a component after its been updated.
+The `didRender` hook is called during both render and re-render after the template has rendered and the DOM updated. You can leverage this hook to perform post-processing on the DOM of a component after it's been updated.
 
 In this example, there is a list component that needs to scroll to a selected item when rendered. Since scrolling to a specific spot is based on positions within the DOM, we need to ensure that the list has been rendered before scrolling. We can first render this list, and then set the scroll.
 
@@ -198,7 +198,7 @@ The scroll happens on `didRender`, where it will scroll the component's containe
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  className: 'item-list',
+  classNames: ['item-list'],
 
   didReceiveAttrs() {
     this._super(...arguments);

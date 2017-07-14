@@ -15,9 +15,9 @@ Ember nécessite Git pour gérer un bon nombre de ses dépendances. Git est four
 
 ### Nodes.js et npm
 
-Ember CLI is built with JavaScript, and expects the [Node.js](https://nodejs.org/) runtime. It also requires dependencies fetched via [npm](https://www.npmjs.com/). npm is packaged with Node.js, so if your computer has Node.js installed you are ready to go.
+Ember CLI is built with JavaScript, and requires the most recent LTS version of the [Node.js](https://nodejs.org/) runtime. It also requires dependencies fetched via [npm](https://www.npmjs.com/). npm is packaged with Node.js, so if your computer has Node.js installed you are ready to go.
 
-Ember requires Node.js 0.12 or higher and npm 2.7 or higher. If you're not sure whether you have Node.js or the right version, run this on your command line:
+If you're not sure whether you have Node.js or the right version, run this on your command line:
 
 ```bash
 node --version
@@ -32,11 +32,7 @@ If you get a *"command not found"* error or an outdated version for Node:
 
 If you get an outdated version of npm, run `npm install -g npm`.
 
-### Bower
-
-Ember requires Bower to manage additional dependencies. Bower is a command line utility that you install with npm. To install Bower run, ```npm install -g bower```
-
-### Watchman (optionnel)
+### Watchman (optional)
 
 On Mac and Linux, you can improve file watching performance by installing [Watchman](https://facebook.github.io/watchman/docs/install.html).
 
@@ -46,16 +42,16 @@ You can run your tests from the command line with PhantomJS, without the need fo
 
 ## Installation
 
-Installez Ember en utilisant npm :
+Install Ember using npm:
 
 ```bash
 npm install -g ember-cli
 ```
 
-Pour vérifier que l'installation fonctionne, exécuter :
+To verify that your installation was successful, run:
 
 ```bash
 ember -v
 ```
 
-Si un numéro de version s'affiche, Ember est bien installé.
+If a version number is shown, you're ready to go.

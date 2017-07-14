@@ -1,7 +1,7 @@
 So far, our app is directly showing the user data from our Ember Data models.
 As our app grows, we will want to manipulate data further before presenting it to our users.
 For this reason, Ember offers Handlebars template helpers to decorate the data in our templates.
-Let's use a handlebars helper to allow our users to quickly see if a property is "standalone" or part of a "Community".
+Let's use a handlebars helper to allow our users to quickly see if a property is "Standalone" or part of a "Community".
 
 To get started, let's generate a helper for `rental-property-type`:
 
@@ -15,7 +15,7 @@ This will create two files, our helper and its related test:
 installing helper
   create app/helpers/rental-property-type.js
 installing helper-test
-  create tests/unit/helpers/rental-property-type-test.js
+  create tests/integration/helpers/rental-property-type-test.js
 ```
 
 Our new helper starts out with some boilerplate code from the generator:
@@ -30,9 +30,9 @@ export function rentalPropertyType(params/*, hash*/) {
 export default Ember.Helper.helper(rentalPropertyType);
 ```
 
-Let's update our `rental-listing` component template to use our new helper and pass in `rental.type`:
+Let's update our `rental-listing` component template to use our new helper and pass in `rental.propertyType`:
 
-```app/templates/components/rental-listing.hbs{-11,+12}
+```app/templates/components/rental-listing.hbs{-11,+12,+13}
 <article class="listing">
   <a {{action 'toggleImageSize'}} class="image {{if isWide "wide"}}">
     <img src="{{rental.image}}" alt="">
@@ -43,8 +43,9 @@ Let's update our `rental-listing` component template to use our new helper and p
     <span>Owner:</span> {{rental.owner}}
   </div>
   <div class="detail type">
-    <span>Type:</span> {{rental.type}}
-    <span>Type:</span> {{rental-property-type rental.type}} - {{rental.type}}
+    <span>Type:</span> {{rental.propertyType}}
+    <span>Type:</span> {{rental-property-type rental.propertyType}}
+      - {{rental.propertyType}}
   </div>
   <div class="detail location">
     <span>Location:</span> {{rental.city}}
@@ -56,7 +57,7 @@ Let's update our `rental-listing` component template to use our new helper and p
 ```
 
 Ideally we'll see "Type: Standalone - Estate" for our first rental property.
-Instead, our default template helper is returning back our `rental.type` values.
+Instead, our default template helper is returning back our `rental.propertyType` values.
 Let's update our helper to look if a property exists in an array of `communityPropertyTypes`,
 if so, we'll return either `'Community'` or `'Standalone'`:
 
@@ -69,8 +70,8 @@ const communityPropertyTypes = [
   'Apartment'
 ];
 
-export function rentalPropertyType([type]/*, hash*/) {
-  if (communityPropertyTypes.includes(type)) {
+export function rentalPropertyType([propertyType]) {
+  if (communityPropertyTypes.includes(propertyType)) {
     return 'Community';
   }
 
@@ -80,9 +81,33 @@ export function rentalPropertyType([type]/*, hash*/) {
 export default Ember.Helper.helper(rentalPropertyType);
 ```
 
-Handlebars passes an array of arguments from our template to our helper.
-We are using ES2015 destructuring to get the first item in the array and name it `type`.
-Then we can check to see if `type` exists in our `communityPropertyTypes` array.
+Each [argument](https://guides.emberjs.com/v2.12.0/templates/writing-helpers/#toc_helper-arguments) in the helper will be added to an array and passed to our helper. For example, `{{my-helper "foo" "bar"}}` would result in `myHelper(["foo", "bar"])`. Using array [ES2015 destructuring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) assignment, we can name expected parameters within the array. In the example above, the first argument in the template will be assigned to `propertyType`. This provides a flexible, expressive interface for your helpers, including optional arguments and default values.
 
 Now in our browser we should see that the first rental property is listed as "Standalone",
 while the other two are listed as "Community".
+
+
+### Integration Test
+
+Update the content of the integration test to the following to fix it:
+
+```/tests/integration/helpers/rental-property-type-test.js{-15,+16}
+
+import { moduleForComponent, test } from 'ember-qunit';
+import hbs from 'htmlbars-inline-precompile';
+
+moduleForComponent('rental-property-type', 'helper:rental-property-type', {
+  integration: true
+});
+
+// Replace this with your real tests.
+test('it renders', function(assert) {
+  this.set('inputValue', '1234');
+
+  this.render(hbs`{{rental-property-type inputValue}}`);
+
+  assert.equal(this.$().text().trim(), '1234');
+  assert.equal(this.$().text().trim(), 'Standalone');
+});
+
+```

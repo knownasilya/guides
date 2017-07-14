@@ -45,7 +45,7 @@ mv dist/index.html dist/200.html
 surge dist funny-name.surge.sh
 ```
 
-We use `--enviroment=development` here so that Mirage will continue to mock fake data.
+We use `--environment=development` here so that Mirage will continue to mock fake data.
 However, normally we would use `ember build --environment=production` which optimizes your application for production.
 
 ## Servers
@@ -71,4 +71,4 @@ RewriteRule (.*) index.html [L]
 ```
 
 Your server's configuration may be different so you may need different options.
-Please see http://httpd.apache.org/docs/2.0/misc/rewriteguide.html for more information.
+Please see the [Apache URL Rewriting Guide](http://httpd.apache.org/docs/2.0/misc/rewriteguide.html) for more information.

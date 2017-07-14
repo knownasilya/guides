@@ -32,6 +32,7 @@ blogPost's
 bookmarklet
 boolean
 breakpoint
+Browserlist
 bugfix
 bugfixes
 camelcase
@@ -83,6 +84,7 @@ emberjs
 enumerables
 env
 erroring
+eslint
 evented
 facto
 falsy
@@ -144,6 +146,7 @@ keycode
 laravel
 li
 lifecycle
+linters
 localhost
 locator
 login
@@ -186,6 +189,8 @@ plugins
 pluralizations
 polyfill
 polyfills
+polymorphism
+Polymorphism
 poppopobject
 popups
 postgresql
@@ -284,12 +289,14 @@ wildcard
 workflow
 xhr
 xss
+Ack
 CDN
 CDNs
 CoffeeScript
 TypeScript
 preprocessor
 Linter
+LTS
 jslint
 interoperable
 SSR

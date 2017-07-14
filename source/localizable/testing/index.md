@@ -30,7 +30,7 @@ They can be written against any isolated application logic.
 
 Some specific examples of units tests are:
 
-* A fullname attribute is computed which is the aggregate of its first and last.
+* A fullname attribute is computed which combines the `firstName` and `lastName` attributes.
 * The serializer properly converts the blog request payload into a blog post model object.
 * Blog dates are properly formatted.
 
@@ -44,7 +44,7 @@ in ensuring data and actions are properly passed between different parts of the 
 provide confidence that parts of the system will work within the application under multiple
 scenarios.
 
-It is recommended that components be tested with integration tests because the component
+It is recommended that components and helpers be tested with integration tests because the component
 interacts with the system in the same way that it will within the context of the application,
 including being rendered from a template and receiving Ember's lifecycle hooks.
 

@@ -38,6 +38,10 @@ h1 {
   color: $ember-orange;
 }
 
+h2 {
+  color: $brown;
+}
+
 p {
   margin: 1.5em 0 $small-spacing;
   line-height: 1.5em;
@@ -45,7 +49,6 @@ p {
 
 a {
   color: $action-color;
-  text-decoration: none;
   transition: color 0.1s linear;
 
   &:active,

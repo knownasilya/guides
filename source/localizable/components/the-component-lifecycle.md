@@ -40,7 +40,7 @@ Below are some samples of ways to use lifecycle hooks within your components.
 `didUpdateAttrs` runs when the attributes of a component have changed, but not when the component is re-rendered, via `component.rerender`,
 `component.set`, or changes in models or services used by the template.
 
-A `didUpdateAttrs` is called prior to rerender, you can use this hook to execute code when specific attributes are changed.
+Since `didUpdateAttrs` is called prior to rerender, you can use this hook to execute code when specific attributes are changed.
 This hook can be an effective alternative to an observer, as it will run prior to a re-render, but after an attribute has changed.
 
 An example of this scenario in action is a profile editor component.  As you are editing one user, and the user attribute is changed,
@@ -90,7 +90,7 @@ export default Ember.Component.extend({
 ### Formatting Component Attributes with `didReceiveAttrs`
 
 `didReceiveAttrs` runs after `init`, and it also runs on subsequent re-renders, which is useful for logic that is the same on all renders.
-It does not run when the re-rendered has been initiated internally.
+It does not run when the re-render has been initiated internally.
 
 Since the `didReceiveAttrs` hook is called every time a component's attributes are updated whether on render or re-render,
 you can use the hook to effectively act as an observer, ensuring code is executed every time an attribute changes.
@@ -194,7 +194,7 @@ There are a few things to note about the `didInsertElement()` hook:
 ### Making Updates to the Rendered DOM with `didRender`
 
 The `didRender` hook is called during both render and re-render after the template has rendered and the DOM updated.
-You can leverage this hook to perform post-processing on the DOM of a component after its been updated.
+You can leverage this hook to perform post-processing on the DOM of a component after it's been updated.
 
 In this example, there is a list component that needs to scroll to a selected item when rendered.
 Since scrolling to a specific spot is based on positions within the DOM, we need to ensure that the list has been rendered before scrolling.
@@ -225,7 +225,7 @@ The scroll happens on `didRender`, where it will scroll the component's containe
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  className: 'item-list',
+  classNames: ['item-list'],
 
   didReceiveAttrs() {
     this._super(...arguments);
@@ -262,9 +262,9 @@ Let's use this hook to cleanup our date picker and event listener from above:
 
 ```js
 willDestroyElement() {
-  this._super(...arguments);
   this.$().off('animationend');
   this.$('input.date').myDatepickerLib().destroy();
+  this._super(...arguments);
 }
 ```
 

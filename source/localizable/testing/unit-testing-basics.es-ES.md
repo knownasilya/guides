@@ -52,7 +52,7 @@ export default Ember.Object.extend({ foo: 'bar', testMethod() { this.set('foo', 
     });
     
 
-In the event the object's method returns a value you can simply assert that the return value is calculated correctly. Suppose our object has a `calc` method that returns a value based on some internal state.
+In the event the object's method returns a value, you can simply assert that the return value is calculated correctly. Suppose our object has a `calc` method that returns a value based on some internal state.
 
 ```app/models/some-thing.js import Ember from 'ember';
 
@@ -85,3 +85,20 @@ export default Ember.Object.extend({ foo: 'bar', other: 'no', doSomething: Ember
       someThing.set('foo', 'baz');
       assert.equal(someThing.get('other'), 'yes');
     });
+    
+
+### Skipping tests
+
+Some times you might be working on a feature, but know that a certain test will fail so you might want to skip it. You can do it by using `skip`:
+
+```javascript
+import { test, skip } from 'ember-qunit';
+
+test('run this test', function(assert) {
+    assert.ok(true)
+});
+
+skip('skip this test', function(assert) {
+    assert.ok(true)
+});
+```

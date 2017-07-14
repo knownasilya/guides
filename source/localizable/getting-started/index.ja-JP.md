@@ -15,9 +15,9 @@ Emberは依存関係の多くを管理するのにGitを利用しています。
 
 ### Node.js とnpm
 
-Ember CLIはJavaScriptで作られていて、実行には[Node.js](https://nodejs.org/)ランタイムが必要となります。 また、[npm](https://www.npmjs.com/)を通して依存関係のあるライブラリを取得する必要があります。 npmはNode.jsとともにインストールされます。ですので、Node.jsがすでにインストール済みでしたら、あなたは先に進む準備ができています。
+Ember CLI is built with JavaScript, and requires the most recent LTS version of the [Node.js](https://nodejs.org/) runtime. また、[npm](https://www.npmjs.com/)を通して依存関係のあるライブラリを取得する必要があります。 npmはNode.jsとともにインストールされます。ですので、Node.jsがすでにインストール済みでしたら、あなたは先に進む準備ができています。
 
-EmberはNode.js 0.12かそれ以上、npm 2.7かそれ以上を必要とします。もしNode.jsがインストールされているかわからない、あるいはバージョンが不明な場合は、コマンドライン上で以下を実行してください。
+If you're not sure whether you have Node.js or the right version, run this on your command line:
 
 ```bash
 node --version
@@ -32,30 +32,26 @@ npm --version
 
 もしnpmが古い場合には、`npm install -g npm`を実行してください。.
 
-### Bower
+### Watchman (optional)
 
-Emberは追加の依存関係を管理するためにBowerを利用しています。Bowerはnpmでインストール可能なコマンドラインのユーティリティです。Bowerをインストールするには以下を実行してください。 ```npm install -g bower```
+On Mac and Linux, you can improve file watching performance by installing [Watchman](https://facebook.github.io/watchman/docs/install.html).
 
-### Watchman (オプション)
+### PhantomJS (optional)
 
-Mac及びLinuxの場合は、[Watchman](https://facebook.github.io/watchman/docs/install.html)をインストールすることで、ファイル監視のパフォーマンスを向上できます。.
-
-### PhantomJS (オプション)
-
-PhantomJSを使えば、コマンドラインからテストを実行できます。ブラウザを開く必要はありません。[PhantomJS のダウンロード手順](http://phantomjs.org/download.html)を参照してください。.
+You can run your tests from the command line with PhantomJS, without the need for a browser to be open. Consult the [PhantomJS download instructions](http://phantomjs.org/download.html).
 
 ## インストール
 
-Emberをインストールするにはnpmを利用します。
+Install Ember using npm:
 
 ```bash
 npm install -g ember-cli
 ```
 
-インストールが成功したことを確認するには、以下を実行します。
+To verify that your installation was successful, run:
 
 ```bash
 ember -v
 ```
 
-バージョン番号が表示されたなら、次に進む準備は完了です。
+If a version number is shown, you're ready to go.

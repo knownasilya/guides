@@ -1,4 +1,4 @@
-You don't need to define a class all at once. You can reopen a class and define new properties using the [`reopen()`](http://emberjs.com/api/classes/Ember.Object.html#method_reopenClass) method.
+クラスを一度にすべて定義する必要はありません。 You can reopen a class and define new properties using the [`reopen()`](http://emberjs.com/api/classes/Ember.Object.html#method_reopen) method.
 
 ```javascript
 Person.reopen({
@@ -8,27 +8,27 @@ Person.reopen({
 Person.create().get('isPerson'); // true
 ```
 
-When using `reopen()`, you can also override existing methods and call `this._super`.
+`reopen()`を使うとき、既存のメソッドをオーバーライドして、その中で`this._super`を呼び出すこともできます。.
 
 ```javascript
 Person.reopen({
-  // override `say` to add an ! at the end
+  // `say`をオーバーライドして最後に!をつける
   say(thing) {
     this._super(thing + '!');
   }
 });
 ```
 
-`reopen()` is used to add instance methods and properties that are shared across all instances of a class. It does not add methods and properties to a particular instance of a class as in vanilla JavaScript (without using prototype).
+`reopen()`は、クラスのすべてのインスタンス間で共有される、インスタンスメソッドやプロパティを追加するために使われます。 普通のJavaScript (プロトタイプを使わない場合) のように、特定のクラスのインスタンスにメソッドやプロパティを追加するものではありません。
 
-But when you need to add static methods or static properties to the class itself you can use [`reopenClass()`](http://emberjs.com/api/classes/Ember.Object.html#method_reopenClass).
+静的なメソッドやプロパティをクラス自身に追加する必要がある場合には、[`reopenClass()`](http://emberjs.com/api/classes/Ember.Object.html#method_reopenClass)を使います。.
 
 ```javascript
 // add static property to class
 Person.reopenClass({
   isPerson: false
 });
-// override property of Person instance
+// override property of existing and future Person instances
 Person.reopen({
   isPerson: true
 });

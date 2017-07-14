@@ -164,6 +164,8 @@ each record in the song model and album model:
 </ul>
 ```
 
+If you use [Ember Data](../../models/) and you are building an `RSVP.hash` with the model's relationship, consider instead properly setting up your [relationships](../../models/relationships) and letting Ember Data take care of loading them.
+
 ## Reusing Route Context
 
 Sometimes you need to fetch a model, but your route doesn't have the parameters, because it's

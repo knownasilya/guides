@@ -20,7 +20,7 @@
   pages:
     - title: "Creating Your App"
       url: "ember-cli"
-    - title: "Setting Up Tests"
+    - title: "Planning Your App"
       url: 'acceptance-test'
     - title: "Routes and Templates"
       url: "routes-and-templates"
@@ -184,6 +184,8 @@
       url: "unit-testing-basics"
     - title: "Testing Components"
       url: "testing-components"
+    - title: "Testing Helpers"
+      url: "testing-helpers"
     - title: "Testing Controllers"
       url: "testing-controllers"
     - title: "Testing Routes"
@@ -242,6 +244,8 @@
       url: "embedding-applications"
     - title: "Feature Flags"
       url: "feature-flags"
+    - title: "Build targets"
+      url: "build-targets"
     - title: "Debugging"
       url: "debugging"
 

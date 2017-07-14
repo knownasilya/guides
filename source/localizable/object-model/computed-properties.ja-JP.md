@@ -1,12 +1,12 @@
-## What are Computed Properties?
+## 計算型プロパティ（Computed Properties）とは何か？
 
-In a nutshell, computed properties let you declare functions as properties. You create one by defining a computed property as a function, which Ember will automatically call when you ask for the property. You can then use it the same way you would any normal, static property.
+計算型プロパティとは、簡単に言うとプロパティとして宣言できる関数です。 計算型プロパティは関数として定義することで作成でき、Emberはそのプロパティが参照された際に自動でその関数を呼び出します。 そして、ユーザーは通常の静的なプロパティと同様にそのプロパティを扱うことができます。
 
-It's super handy for taking one or more normal properties and transforming or manipulating their data to create a new value.
+1つ以上の通常のプロパティを使い、それらを計算したり変換することで新しい計算型プロパティの値を作成すると、大変便利です。
 
-### Computed properties in action
+### 計算型プロパティを使う
 
-We'll start with a simple example:
+単純な例から始めることにしましょう。 `firstName`と`lastName`というプロパティを持つ `Person` オブジェクトに、それらのいずれかが変更された時に2つの名前を結合する`fullName`プロパティが欲しいときには、次のようにします。
 
 ```javascript
 Person = Ember.Object.extend({
@@ -15,7 +15,10 @@ Person = Ember.Object.extend({
   lastName: null,
 
   fullName: Ember.computed('firstName', 'lastName', function() {
-    return `${this.get('firstName')} ${this.get('lastName')}`;
+    let firstName = this.get('firstName');
+    let lastName = this.get('lastName');
+
+    return `${firstName} ${lastName}`;
   })
 });
 
@@ -23,13 +26,51 @@ let ironMan = Person.create({
   firstName: 'Tony',
   lastName:  'Stark'
 });
-
-ironMan.get('fullName'); // "Tony Stark"
 ```
 
-This declares `fullName` to be a computed property, with `firstName` and `lastName` as the properties it depends on. The first time you access the `fullName` property, the function backing the computed property (i.e. the last argument) will be run and the results will be cached. Subsequent access of `fullName` will read from the cache without calling the function. Changing any of the dependent properties causes the cache to invalidate, so that the computed function runs again on the next access.
+ここでは、`firstName`と`lastName`を依存プロパティとして持つ計算型プロパティ、`fullName`を宣言しています。 `fullName`プロパティに初めてアクセスした際に、上記の関数が呼び出されて結果がキャッシュされます。 以降の`fullName`へのアクセスは、関数の呼び出し無しにキャッシュから読み込まれます。 依存するプロパティのいずれかが変更されると、キャッシュが無効になって、次のアクセス時に再び関数が実行されます。
 
-When you want to depend on a property which belongs to an object, you can setup multiple dependent keys by using brace expansion:
+### 同一のオブジェクトへの複数の依存
+
+先ほどの例で、計算型プロパティ`fullName`は2つの異なるプロパティに依存していました。
+
+```javascript
+…
+  fullName: Ember.computed('firstName', 'lastName', function() {
+    let firstName = this.get('firstName');
+    let lastName = this.get('lastName');
+
+    return `${firstName} ${lastName}`;
+  })
+…
+```
+
+*ブレース展開*という省略構文を使うことでも依存関係を宣言できます。 依存するプロパティを中かっこ(`{}`) で囲み、カンマで区切ります。
+
+```javascript
+…
+  fullName: Ember.computed('{firstName,lastName}', function() {
+    let firstName = this.get('firstName');
+    let lastName = this.get('lastName');
+
+    return `${firstName} ${lastName}`;
+  })
+…
+```
+
+この構文は1つのオブジェクトに複数のプロパティを依存させる場合に特に便利です。たとえば、以下のコードを
+
+```javascript
+let obj = Ember.Object.extend({
+  baz: {foo: 'BLAMMO', bar: 'BLAZORZ'},
+
+  something: Ember.computed('baz.foo', 'baz.bar', function() {
+    return this.get('baz.foo') + ' ' + this.get('baz.bar');
+  })
+});
+```
+
+次のように置き換えれます。
 
 ```javascript
 let obj = Ember.Object.extend({
@@ -41,11 +82,9 @@ let obj = Ember.Object.extend({
 });
 ```
 
-This allows you to observe both `foo` and `bar` on `baz` with much less duplication/redundancy when your dependent keys are mostly similar.
+### 計算型プロパティの連鎖
 
-### Chaining computed properties
-
-You can use computed properties as values to create new computed properties. Let's add a `description` computed property to the previous example, and use the existing `fullName` property and add in some other properties:
+計算型プロパティは新しい計算型プロパティを作成するための値としても使えます。 それでは、前のコード例に`description`という計算型プロパティを追加しましょう。既存の`fullName`プロパティを使い、その他のいくつかのプロパティも追加しましょう。
 
 ```javascript
 Person = Ember.Object.extend({
@@ -73,9 +112,9 @@ let captainAmerica = Person.create({
 captainAmerica.get('description'); // "Steve Rogers; Age: 80; Country: USA"
 ```
 
-### Dynamic updating
+### 動的な更新
 
-Computed properties, by default, observe any changes made to the properties they depend on and are dynamically updated when they're called. Let's use computed properties to dynamically update.
+計算型プロパティは、標準的に、依存するプロパティに加えられたいかなる変更を監視し、呼び出された際に値を動的に更新します。それでは、計算型プロパティを動的に更新してみましょう。
 
 ```javascript
 captainAmerica.set('firstName', 'William');
@@ -83,13 +122,13 @@ captainAmerica.set('firstName', 'William');
 captainAmerica.get('description'); // "William Rogers; Age: 80; Country: USA"
 ```
 
-So this change to `firstName` was observed by `fullName` computed property, which was itself observed by the `description` property.
+ここで、`firstName`への変更は、`description`プロパティによって監視されている、`fullName`計算型プロパティによって監視されていました。
 
-Setting any dependent property will propagate changes through any computed properties that depend on them, all the way down the chain of computed properties you've created.
+依存しているプロパティが設定されると、変更はそれらに依存している計算型プロパティへと伝播し、依存している計算型プロパティの連鎖の最後まで伝わります。
 
-### Setting Computed Properties
+### 計算型プロパティの設定
 
-You can also define what Ember should do when setting a computed property. If you try to set a computed property, it will be invoked with the key (property name), and the value you want to set it to. You must return the new intended value of the computed property from the setter function.
+計算型プロパティを設定したときにEmberがすべきことを定義することもできます。 計算型プロパティを設定しようとすると、キー (プロパティ名) と設定しようとしている値とともにsetter関数が起動されます。 その際には、戻り値にで計算型プロパティの新しい値を返す必要があります。
 
 ```javascript
 Person = Ember.Object.extend({
@@ -108,19 +147,13 @@ Person = Ember.Object.extend({
     }
   })
 });
-
-
-let captainAmerica = Person.create();
-captainAmerica.set('fullName', 'William Burnside');
-captainAmerica.get('firstName'); // William
-captainAmerica.get('lastName'); // Burnside
 ```
 
-### Computed property macros
+### 計算型プロパティマクロ
 
-Some types of computed properties are very common. Ember provides a number of computed property macros, which are shorter ways of expressing certain types of computed property.
+計算型プロパティのいくつかのタイプはとても一般的です。Emberは、ある種類の計算型プロパティをより短く表現する、計算型プロパティのマクロを提供しています。
 
-In this example, the two computed properties are equivalent:
+以下の例で、2つの計算型プロパティは等価です。
 
 ```javascript
 Person = Ember.Object.extend({
@@ -134,4 +167,4 @@ Person = Ember.Object.extend({
 });
 ```
 
-To see the full list of computed property macros, have a look at [the API documentation](http://emberjs.com/api/classes/Ember.computed.html)
+計算型プロパティマクロの完全な一覧を確認するには、[APIドキュメント](http://emberjs.com/api/classes/Ember.computed.html)を参照してください。

@@ -168,7 +168,7 @@ export default function() {
         title: "Grand Old Mansion",
         owner: "Veruca Salt",
         city: "San Francisco",
-        type: "Estate",
+        propertyType: "Estate",
         bedrooms: 15,
         image: "https://upload.wikimedia.org/wikipedia/commons/c/cb/Crane_estate_(5).jpg",
         description: "This grand old mansion sits on over 100 acres of rolling hills and dense redwood forests."
@@ -181,7 +181,7 @@ export default function() {
         title: "Urban Living",
         owner: "Mike Teavee",
         city: "Seattle",
-        type: "Condo",
+        propertyType: "Condo",
         bedrooms: 1,
         image: "https://upload.wikimedia.org/wikipedia/commons/0/0e/Alfonso_13_Highrise_Tegucigalpa.jpg",
         description: "A commuters dream. This rental is within walking distance of 2 bus stops and the Metro."
@@ -194,7 +194,7 @@ export default function() {
         title: "Downtown Charm",
         owner: "Violet Beauregarde",
         city: "Portland",
-        type: "Apartment",
+        propertyType: "Apartment",
         bedrooms: 3,
         image: "https://upload.wikimedia.org/wikipedia/commons/f/f7/Wheeldon_Apartment_Building_-_Portland_Oregon.jpg",
         description: "Convenience is at your doorstep with this charming downtown rental. Great restaurants and active night life are within a few feet."
@@ -302,7 +302,7 @@ Next, we can update the template for our show route (`app/templates/rentals/show
       <strong>Owner:</strong> {{model.owner}}
     </div>
     <div class="detail">
-      <strong>Type:</strong> {{rental-property-type model.type}} - {{model.type}}
+      <strong>Type:</strong> {{rental-property-type model.propertyType}} - {{model.propertyType}}
     </div>
     <div class="detail">
       <strong>Location:</strong> {{model.city}}
@@ -329,18 +329,20 @@ Alternately, you may just pass `rental.id` for clarity.
 
 Clicking on the title will load the detail page for that rental.
 
-```app/templates/components/rental-listing.hbs{+6}
+```app/templates/components/rental-listing.hbs{-6,+7}
 <article class="listing">
   <a {{action 'toggleImageSize'}} class="image {{if isWide "wide"}}">
     <img src="{{rental.image}}" alt="">
     <small>View Larger</small>
   </a>
+  <h3>{{rental.title}}</h3>
   <h3>{{#link-to "rentals.show" rental}}{{rental.title}}{{/link-to}}</h3>
   <div class="detail owner">
     <span>Owner:</span> {{rental.owner}}
   </div>
   <div class="detail type">
-    <span>Type:</span> {{rental-property-type rental.type}} - {{rental.type}}
+    <span>Type:</span> {{rental-property-type rental.propertyType}}
+      - {{rental.propertyType}}
   </div>
   <div class="detail location">
     <span>Location:</span> {{rental.city}}
@@ -353,12 +355,27 @@ Clicking on the title will load the detail page for that rental.
 ```
 ![Rental Page Nested Index Route](../../images/subroutes/subroutes-super-rentals-index.png)
 
-## Final Check
+At this point you can do a [deployment](../deploying/) and share your Super Rentals application to the world
+or you can use this as a base to explore other Ember features and addons.
+Regardless, we hope this has helped you get started with creating your own ambitious applications with Ember!
+
+### Acceptance Tests
+
+We want to verify that we can click on a specific rental and load a detailed view to the page.
+We'll click on the title and validate that an expanded description of the rental is shown.
+
+```/tests/acceptance/list-rentals-test.js
+test('should show details for a specific rental', function (assert) {
+  visit('/rentals');
+  click('a:contains("Grand Old Mansion")');
+  andThen(function() {
+    assert.equal(currentURL(), '/rentals/grand-old-mansion', 'should navigate to show route');
+    assert.equal(find('.show-listing h2').text(), "Grand Old Mansion", 'should list rental title');
+    assert.equal(find('.description').length, 1, 'should list a description of the property');
+  });
+});
+```
 
 At this point all our tests should pass, including the [list of acceptance tests](../acceptance-test) we created as our beginning requirements.
 
 ![Acceptance Tests Pass](../../images/subroutes/all-acceptance-pass.png)
-
-At this point you can do a [deployment](../deploying) and share your Super Rentals application to the world
-or you can use this as a base to explore other Ember features and addons.
-Regardless, we hope this has helped you get started with creating your own ambitious applications with Ember!

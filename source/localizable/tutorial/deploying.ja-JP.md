@@ -38,7 +38,7 @@ mv dist/index.html dist/200.html
 surge dist funny-name.surge.sh
 ```
 
-ここでは`--enviroment=development`を設定して、Mirageが引き続きmock ファイクデータを利用できるようにします。 しかし、一般的には`ember build --environment=production`を利用して、プロダクションで利用できるようコードを生成します。
+ここでは`--environment=development`を設定して、Mirageが引き続きmock ファイクデータを利用できるようにします。 しかし、一般的には`ember build --environment=production`を利用して、プロダクションで利用できるようコードを生成します。
 
 ## サーバー
 
@@ -58,4 +58,4 @@ RewriteRule (.*) index.html [L]
 </IfModule>
 ```
 
-サーバーの構成が異なる場合には、さまざまなオプションが必要になるかもしれません。詳細については http://httpd.apache.org/docs/2.0/misc/rewriteguide.html を参照してください。
+サーバーの構成は異なる可能性があるので、異なるオプションが必要となるかもしれません。 詳細については [Apache の URL 書き換えガイド](http://httpd.apache.org/docs/2.0/misc/rewriteguide.html) を参照してください。

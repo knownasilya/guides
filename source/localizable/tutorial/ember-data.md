@@ -5,7 +5,7 @@ Ember comes with a data management library called [Ember Data](https://github.co
 
 Ember Data requires you to define the structure of the data you wish to provide to your application by extending [`DS.Model`](http://emberjs.com/api/data/classes/DS.Model.html).
 
-You can generate a Ember Data Model using Ember CLI.
+You can generate an Ember Data Model using Ember CLI.
 We'll call our model `rental` and generate it as follows:
 
 ```shell
@@ -21,7 +21,7 @@ installing model-test
   create tests/unit/models/rental-test.js
 ```
 
-When we open the model file reveals a blank class extending [`DS.Model`](http://emberjs.com/api/data/classes/DS.Model.html):
+When we open the model file, we can see a blank class extending [`DS.Model`](http://emberjs.com/api/data/classes/DS.Model.html):
 
 ```app/models/rental.js
 import DS from 'ember-data';
@@ -32,7 +32,7 @@ export default DS.Model.extend({
 ```
 
 Let's define the structure of a rental object using the same attributes for our rental that we [previously used](../model-hook/) in our hard-coded array of JavaScript objects -
-_title_, _owner_, _city_, _type_, _image_, _bedrooms_ and _description_.
+_title_, _owner_, _city_, _property type_, _image_, _bedrooms_ and _description_.
 Define attributes by giving them the result of the function [`DS.attr()`](http://emberjs.com/api/data/classes/DS.html#method_attr).
 For more information on Ember Data Attributes, read the section called [Defining Attributes](../../models/defining-models/#toc_defining-attributes) in the guides.
 
@@ -43,14 +43,14 @@ export default DS.Model.extend({
   title: DS.attr(),
   owner: DS.attr(),
   city: DS.attr(),
-  type: DS.attr(),
+  propertyType: DS.attr(),
   image: DS.attr(),
   bedrooms: DS.attr(),
   description: DS.attr()
 });
 ```
 
-Now we have a model object that we can use for our Ember Data store.
+We now have a model object that we can use for our Ember Data implementation.
 
 ### Updating the Model Hook
 
@@ -71,7 +71,7 @@ export default Ember.Route.extend({
       title: 'Grand Old Mansion',
       owner: 'Veruca Salt',
       city: 'San Francisco',
-      type: 'Estate',
+      propertyType: 'Estate',
       bedrooms: 15,
       image: 'https://upload.wikimedia.org/wikipedia/commons/c/cb/Crane_estate_(5).jpg',
       description: "This grand old mansion sits on over 100 acres of rolling hills and dense redwood forests."
@@ -80,7 +80,7 @@ export default Ember.Route.extend({
       title: 'Urban Living',
       owner: 'Mike TV',
       city: 'Seattle',
-      type: 'Condo',
+      propertyType: 'Condo',
       bedrooms: 1,
       image: 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Alfonso_13_Highrise_Tegucigalpa.jpg',
       description: "A commuters dream. This rental is within walking distance of 2 bus stops and the Metro."
@@ -89,7 +89,7 @@ export default Ember.Route.extend({
       title: 'Downtown Charm',
       owner: 'Violet Beauregarde',
       city: 'Portland',
-      type: 'Apartment',
+      propertyType: 'Apartment',
       bedrooms: 3,
       image: 'https://upload.wikimedia.org/wikipedia/commons/f/f7/Wheeldon_Apartment_Building_-_Portland_Oregon.jpg',
       description: "Convenience is at your doorstep with this charming downtown rental. Great restaurants and active night life are within a few feet."
@@ -98,9 +98,13 @@ export default Ember.Route.extend({
 });
 ```
 
-When we call `findAll`, Ember Data will attempt to make a GET request to `/rentals`.
+When we call `findAll`, Ember Data will attempt to fetch rentals from `/api/rentals`.
+If you recall, in the section titled [Installing Addons](../installing-addons/) we set up an adapter to route data requests through `/api`.
 
 You can read more about Ember Data in the [Models section](../../models/).
 
-Since we're using Mirage in our development environment, Mirage will return the data we've provided.
-When we deploy our app to a production server, we will need to provide a backend for Ember Data to communicate with.
+Since we have already set up Ember Mirage in our development environment, Mirage will return the data we requested without actually making a network request.
+
+When we deploy our app to a production server,
+we will likely want to replace Mirage with a remote server for Ember Data to communicate with for storing and retrieving persisted data.
+A remote server will allow for data to be shared and updated across users.

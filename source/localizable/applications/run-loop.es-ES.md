@@ -54,7 +54,7 @@ Interesantemente, este patrón se mantiene válido para muchos otros tipos de tr
 Veamos un ejemplo similar que está optimizado en Ember, comenzando con un objeto `User`:
 
 ```javascript
-var User = Ember.Object.extend({
+let User = Ember.Object.extend({
   firstName: null,
   lastName: null,
   fullName: Ember.computed('firstName', 'lastName', function() {
@@ -73,12 +73,12 @@ y una plantilla para mostrar sus atributos:
 Si ejecutamos el siguiente código sin el bucle de ejecución:
 
 ```javascript
-var user = User.create({ firstName: 'Tom', lastName: 'Huda' });
+let user = User.create({ firstName: 'Tom', lastName: 'Huda' });
 user.set('firstName', 'Yehuda');
-// {{firstName}} y {{fullName}} son actualizados
+// {{firstName}} and {{fullName}} are updated
 
 user.set('lastName', 'Katz');
-// {{lastName}} y {{fullName}} son actualizados
+// {{lastName}} and {{fullName}} are updated
 ```
 
 Vemos que el navegador procesará la plantilla 2 veces.
@@ -86,7 +86,7 @@ Vemos que el navegador procesará la plantilla 2 veces.
 En tanto, si tenemos el bucle de ejecución en el código anterior, el navegador sólo procesará la plantilla una vez que los atributos hayan sido colocados por completo.
 
 ```javascript
-var user = User.create({ firstName: 'Tom', lastName: 'Huda' });
+let user = User.create({ firstName: 'Tom', lastName: 'Huda' });
 user.set('firstName', 'Yehuda');
 user.set('lastName', 'Katz');
 user.set('firstName', 'Tom');
@@ -123,17 +123,18 @@ Ya que la prioridad es del primero al último, la cola de "sincronización" tien
 
 The algorithm works this way:
 
-  1. Let the highest priority queue with pending jobs be: `CURRENT_QUEUE`, if there are no queues with pending jobs the run loop is complete
-  2. Let a new temporary queue be defined as `WORK_QUEUE`
-  3. Move jobs from `CURRENT_QUEUE` into `WORK_QUEUE`
-  4. Process all the jobs sequentially in `WORK_QUEUE`
-  5. Return to Step 1
+1. Let the highest priority queue with pending jobs be: `CURRENT_QUEUE`, if there are no queues with pending jobs the run loop is complete
+2. Let a new temporary queue be defined as `WORK_QUEUE`
+3. Move jobs from `CURRENT_QUEUE` into `WORK_QUEUE`
+4. Process all the jobs sequentially in `WORK_QUEUE`
+5. Return to Step 1
 
 ## An example of the internals
 
 Rather than writing the higher level app code that internally invokes the various run loop scheduling functions, we have stripped away the covers, and shown the raw run-loop interactions.
 
-Working with this API directly is not common in most Ember apps, but understanding this example will help you to understand the run-loops algorithm, which will make you a better Ember developer. <iframe src="https://s3.amazonaws.com/emberjs.com/run-loop-guide/index.html" width="678" height="410" style="border:1px solid rgb(170, 170, 170);margin-bottom:1.5em;"></iframe>
+Working with this API directly is not common in most Ember apps, but understanding this example will help you to understand the run-loops algorithm, which will make you a better Ember developer. <iframe src="https://s3.amazonaws.com/emberjs.com/run-loop-guide/index.html" width="678" height="410" style="border:1px solid rgb(170, 170, 170);margin-bottom:1.5em;"></iframe> 
+
 ## How do I tell Ember to start a run loop?
 
 You should begin a run loop when the callback fires.
@@ -164,7 +165,7 @@ $('a').click(() => {
 });
 ```
 
-The run loop API calls that *schedule* work i.e. [`run.schedule`](http://emberjs.com/api/classes/Ember.run.html#method_schedule), [`run.scheduleOnce`](http://emberjs.com/api/classes/Ember.run.html#method_scheduleOnce), [`run.once`](http://emberjs.com/api/classes/Ember.run.html#method_once) have the property that they will approximate a run loop for you if one does not already exist. These automatically created run loops we call *autoruns*.
+The run loop API calls that *schedule* work, i.e. [`run.schedule`](http://emberjs.com/api/classes/Ember.run.html#method_schedule), [`run.scheduleOnce`](http://emberjs.com/api/classes/Ember.run.html#method_scheduleOnce), [`run.once`](http://emberjs.com/api/classes/Ember.run.html#method_once) have the property that they will approximate a run loop for you if one does not already exist. These automatically created run loops we call *autoruns*.
 
 Here is some pseudocode to describe what happens using the example above:
 
@@ -212,8 +213,8 @@ When your application is in *testing mode* then Ember will throw an error if you
 
 Autoruns are disabled in testing for several reasons:
 
-  1. Autoruns are Embers way of not punishing you in production if you forget to open a run loop before you schedule callbacks on it. While this is useful in production, these are still situations that should be revealed in testing to help you find and fix them.
-  2. Some of Ember's test helpers are promises that wait for the run loop to empty before resolving. If your application has code that runs *outside* a run loop, these will resolve too early and give erroneous test failures which are difficult to find. Disabling autoruns help you identify these scenarios and helps both your testing and your application!
+1. Autoruns are Embers way of not punishing you in production if you forget to open a run loop before you schedule callbacks on it. While this is useful in production, these are still situations that should be revealed in testing to help you find and fix them.
+2. Some of Ember's test helpers are promises that wait for the run loop to empty before resolving. If your application has code that runs *outside* a run loop, these will resolve too early and give erroneous test failures which are difficult to find. Disabling autoruns help you identify these scenarios and helps both your testing and your application!
 
 ## Where can I find more information?
 

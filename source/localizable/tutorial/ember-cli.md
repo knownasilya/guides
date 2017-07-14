@@ -1,6 +1,8 @@
 Welcome to the Ember Tutorial!
 This tutorial is meant to introduce basic Ember concepts while creating a professional looking application.
-If you get stuck at any point during the tutorial feel free to visit [https://github.com/ember-learn/super-rentals](https://github.com/ember-learn/super-rentals) for a working example of the completed app.
+If you get stuck at any point during the tutorial, feel free to download [https://github.com/ember-learn/super-rentals](https://github.com/ember-learn/super-rentals) for a working example of the completed app.
+
+You can install the latest version of `ember-cli` by following the [Quick Start](../../getting-started/quick-start/#toc_install-ember) guide "Installing Ember" section.
 
 Ember CLI, Ember's command line interface, provides a standard project
 structure, a set of development tools, and an addon system.
@@ -19,6 +21,13 @@ for the tutorial in the next section, you can make an app called `super-rentals`
 ember new super-rentals
 ```
 
+A new project will be created inside your current directory. You can now go to
+your `super-rentals` project directory and start working on it.
+
+```shell
+cd super-rentals
+```
+
 ## Directory Structure
 
 The `new` command generates a project structure with the following files and
@@ -27,12 +36,13 @@ directories:
 ```text
 |--app
 |--config
-|--public
 |--node_modules
+|--public
 |--tests
 |--vendor
 
-bower.json
+<other files>
+
 ember-cli-build.js
 package.json
 README.md
@@ -44,13 +54,6 @@ Let's take a look at the folders and files Ember CLI generates.
 **app**: This is where folders and files for models, components, routes,
 templates and styles are stored. The majority of your coding on an Ember
 project happens in this folder.
-
-**bower.json**: Bower is a dependency management tool.
-It can be used to manage front-end plugins and component dependencies
-(HTML, CSS, JavaScript, etc).  All Bower components are installed in the
-`bower_components` directory. If we add front-end dependencies, such as 
-Bootstrap, we will see them listed here, and added to the 
-`bower_components` directory.
 
 **config**: The config directory contains the `environment.js` where you can
 configure settings for your app.
@@ -97,19 +100,11 @@ code.
 For example, the line `import Ember from 'ember';` gives us access to the actual
 Ember.js library as the variable `Ember`. And the `import config from
 './config/environment';` line gives us access to our app's configuration data
-as the variable `config`. `const` is a way to declare a read-only variable, 
-as to make sure it is not accidentally reassigned elsewhere. At the end of the file,
+as the variable `config`. `const` is a way to declare a read-only variable to make
+sure it is not accidentally reassigned elsewhere. At the end of the file,
 `export default Router;` makes the `Router` variable defined in this file available 
 to other parts of the app.
 
-## Upgrading Ember
-
-Before continuing to the tutorial, make sure that you have the most recent
-versions of Ember and Ember Data installed. If the version of `ember-source` in
-`package.json` is lower than the version number in the upper-left corner of these
-Guides, update the version number in `package.json` and then run `npm install`.
-Similarly, if the version of `ember-data` in `package.json` is lower, update the
-version number and then run `npm install`.
 
 ## The Development Server
 
@@ -127,6 +122,21 @@ ember s
 ```
 
 If we navigate to [`http://localhost:4200`](http://localhost:4200), we'll see the default welcome screen.
-Once we add our own `app/templates/application.hbs` file, the welcome screen will be replaced with our own content.
+When we edit the `app/templates/application.hbs` file, we'll replace that content with our own.
 
 ![default welcome screen](../../images/ember-cli/default-welcome-page.png)
+
+The first thing we want to do in our new project is to remove the welcome screen.
+We do this by simply opening up the application template file located at `app/templates/application.hbs`.
+
+Once open, remove the component labeled `{{welcome-page}}`.
+The application should now be a completely blank canvas to build our application on.
+
+```app/templates/application.hbs{-1,-2,-3}
+{{!-- The following component displays Ember's default welcome message. --}}
+{{welcome-page}}
+{{!-- Feel free to remove this! --}}
+
+{{outlet}}
+
+```
